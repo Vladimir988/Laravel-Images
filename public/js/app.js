@@ -5081,12 +5081,19 @@ __webpack_require__.r(__webpack_exports__);
   name: "Index",
   data: function data() {
     return {
-      dropzone: null
+      dropzone: null,
+      title: null
     };
+  },
+  methods: {
+    store: function store() {
+      console.log(this.dropzone.getAcceptedFiles());
+    }
   },
   mounted: function mounted() {
     this.dropzone = new dropzone__WEBPACK_IMPORTED_MODULE_0__["default"](this.$refs.dropzone, {
-      url: "/file/post"
+      url: "/file/post",
+      autoProcessQueue: false
     });
   }
 });
@@ -5110,10 +5117,43 @@ var render = function render() {
     _c = _vm._self._c;
   return _c("div", {
     staticClass: "w-75"
-  }, [_c("div", {
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.title,
+      expression: "title"
+    }],
+    staticClass: "form-control mb-3",
+    attrs: {
+      type: "text",
+      placeholder: "title"
+    },
+    domProps: {
+      value: _vm.title
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.title = $event.target.value;
+      }
+    }
+  }), _vm._v(" "), _c("div", {
     ref: "dropzone",
-    staticClass: "btn p-5 bg-info d-block text-center text-light"
-  }, [_vm._v("\n        Upload\n    ")])]);
+    staticClass: "btn p-5 bg-info d-block text-center text-light mb-3"
+  }, [_vm._v("\n        Drop zone\n    ")]), _vm._v(" "), _c("input", {
+    staticClass: "btn btn-primary",
+    attrs: {
+      type: "submit",
+      value: "Add"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.store.apply(null, arguments);
+      }
+    }
+  })]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
