@@ -10,6 +10,6 @@ class StoreController extends Controller
     {
         dd(\request()->all());
 
-        return view('index');
+//        return view('index');
     }
 }

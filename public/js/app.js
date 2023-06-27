@@ -5087,12 +5087,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     store: function store() {
-      console.log(this.dropzone.getAcceptedFiles());
+      var images = new FormData();
+      var files = this.dropzone.getAcceptedFiles();
+      files.forEach(function (file) {
+        images.append('images[]', file);
+      });
+      axios.post('/api/posts', images);
     }
   },
   mounted: function mounted() {
     this.dropzone = new dropzone__WEBPACK_IMPORTED_MODULE_0__["default"](this.$refs.dropzone, {
-      url: "/file/post",
+      url: '/api/posts',
       autoProcessQueue: false
     });
   }

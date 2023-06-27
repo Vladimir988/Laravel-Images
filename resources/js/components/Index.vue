@@ -20,12 +20,17 @@ export default {
     },
     methods: {
         store() {
-            console.log(this.dropzone.getAcceptedFiles());
+            let images = new FormData();
+            const files  = this.dropzone.getAcceptedFiles();
+            files.forEach(file => {
+                images.append('images[]', file);
+            });
+            axios.post('/api/posts', images);
         }
     },
     mounted() {
         this.dropzone = new Dropzone(this.$refs.dropzone, {
-            url: "/file/post",
+            url: '/api/posts',
             autoProcessQueue: false,
         });
     }
