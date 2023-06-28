@@ -5087,12 +5087,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     store: function store() {
+      var _this = this;
       var data = new FormData();
       var files = this.dropzone.getAcceptedFiles();
       files.forEach(function (file) {
         data.append('images[]', file);
+        _this.dropzone.removeFile(file);
       });
       data.append('title', this.title);
+      this.title = '';
       axios.post('/api/posts', data);
     }
   },
