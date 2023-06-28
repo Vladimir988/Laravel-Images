@@ -5087,18 +5087,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     store: function store() {
-      var images = new FormData();
+      var data = new FormData();
       var files = this.dropzone.getAcceptedFiles();
       files.forEach(function (file) {
-        images.append('images[]', file);
+        data.append('images[]', file);
       });
-      axios.post('/api/posts', images);
+      data.append('title', this.title);
+      axios.post('/api/posts', data);
     }
   },
   mounted: function mounted() {
     this.dropzone = new dropzone__WEBPACK_IMPORTED_MODULE_0__["default"](this.$refs.dropzone, {
       url: '/api/posts',
-      autoProcessQueue: false
+      autoProcessQueue: false,
+      addRemoveLinks: true
     });
   }
 });
