@@ -5,6 +5,12 @@
             Drop zone
         </div>
         <input @click.prevent="store" type="submit" class="btn btn-primary" value="Add">
+
+        <div class="mt-5">
+            <div>
+<!--                <h4>{{ post.title }}</h4>-->
+            </div>
+        </div>
     </div>
 </template>
 
@@ -16,6 +22,7 @@ export default {
         return {
             dropzone: null,
             title: null,
+            post: null,
         }
     },
     methods: {
@@ -29,6 +36,12 @@ export default {
             data.append('title', this.title);
             this.title = '';
             axios.post('/api/posts', data);
+        },
+        getPost() {
+            axios.get('/api/posts').then(response => {
+                console.log(response);
+                this.post = response.data.data;
+            });
         }
     },
     mounted() {
@@ -37,6 +50,7 @@ export default {
             autoProcessQueue: false,
             addRemoveLinks: true,
         });
+        this.getPost();
     }
 }
 </script>
