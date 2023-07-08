@@ -5102,7 +5102,6 @@ __webpack_require__.r(__webpack_exports__);
     getPost: function getPost() {
       var _this2 = this;
       axios.get('/api/posts').then(function (response) {
-        console.log(response);
         _this2.post = response.data.data;
       });
     }
@@ -5160,7 +5159,7 @@ var render = function render() {
   }), _vm._v(" "), _c("div", {
     ref: "dropzone",
     staticClass: "btn p-5 bg-info d-block text-center text-light mb-3"
-  }, [_vm._v("\n            Drop zone\n        ")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("\n        Drop zone\n    ")]), _vm._v(" "), _c("input", {
     staticClass: "btn btn-primary",
     attrs: {
       type: "submit",
@@ -5172,15 +5171,19 @@ var render = function render() {
         return _vm.store.apply(null, arguments);
       }
     }
-  }), _vm._v(" "), _vm._m(0)]);
-};
-var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
+  }), _vm._v(" "), _c("div", {
     staticClass: "mt-5"
-  }, [_c("div")]);
-}];
+  }, [_vm.post ? _c("div", [_c("h4", [_vm._v(_vm._s(_vm.post.title))]), _vm._v(" "), _vm._l(_vm.post.images, function (image) {
+    return _c("div", [_c("img", {
+      staticClass: "mb-3 w-100",
+      attrs: {
+        src: image.url,
+        alt: _vm.post.title
+      }
+    })]);
+  })], 2) : _vm._e()])]);
+};
+var staticRenderFns = [];
 render._withStripped = true;
 
 

@@ -14,6 +14,6 @@ class Post extends Model
 
     public function images()
     {
-        $this->hasMany(Image::class, 'post_id', 'id');
+        return $this->hasMany(Image::class, 'post_id', 'id');
     }
 }

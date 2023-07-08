@@ -7,8 +7,11 @@
         <input @click.prevent="store" type="submit" class="btn btn-primary" value="Add">
 
         <div class="mt-5">
-            <div>
-<!--                <h4>{{ post.title }}</h4>-->
+            <div v-if="post">
+                <h4>{{ post.title }}</h4>
+                <div v-for="image in post.images">
+                    <img :src="image.url" :alt="post.title" class="mb-3 w-100">
+                </div>
             </div>
         </div>
     </div>
@@ -39,7 +42,6 @@ export default {
         },
         getPost() {
             axios.get('/api/posts').then(response => {
-                console.log(response);
                 this.post = response.data.data;
             });
         }
