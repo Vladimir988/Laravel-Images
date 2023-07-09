@@ -5177,7 +5177,7 @@ var render = function render() {
     staticClass: "mt-5"
   }, [_vm.post ? _c("div", [_c("h4", [_vm._v(_vm._s(_vm.post.title))]), _vm._v(" "), _vm._l(_vm.post.images, function (image) {
     return _c("div", [_c("img", {
-      staticClass: "mb-3 w-50",
+      staticClass: "mb-3 w-100",
       attrs: {
         src: image.url,
         alt: _vm.post.title

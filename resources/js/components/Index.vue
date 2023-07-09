@@ -10,7 +10,7 @@
             <div v-if="post">
                 <h4>{{ post.title }}</h4>
                 <div v-for="image in post.images">
-                    <img :src="image.url" :alt="post.title" class="mb-3 w-50">
+                    <img :src="image.url" :alt="post.title" class="mb-3 w-100">
                 </div>
             </div>
         </div>
