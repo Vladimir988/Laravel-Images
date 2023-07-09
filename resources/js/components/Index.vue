@@ -38,7 +38,9 @@ export default {
             });
             data.append('title', this.title);
             this.title = '';
-            axios.post('/api/posts', data);
+            axios.post('/api/posts', data).then(() => {
+                this.getPost();
+            });
         },
         getPost() {
             axios.get('/api/posts').then(response => {

@@ -5097,7 +5097,9 @@ __webpack_require__.r(__webpack_exports__);
       });
       data.append('title', this.title);
       this.title = '';
-      axios.post('/api/posts', data);
+      axios.post('/api/posts', data).then(function () {
+        _this.getPost();
+      });
     },
     getPost: function getPost() {
       var _this2 = this;
