@@ -4,8 +4,15 @@
         <div ref="dropzone" class="btn p-5 bg-info d-block text-center text-light mb-3">
             Drop zone
         </div>
+        <div class="mb-3">
+            <vue-editor
+                v-model="content"
+                useCustomImageHandler
+                @image-added="handleImageAdded"
+            >
+            </vue-editor>
+        </div>
         <input @click.prevent="store" type="submit" class="btn btn-primary" value="Add">
-
         <div class="mt-5">
             <div v-if="post">
                 <h4>{{ post.title }}</h4>
@@ -20,13 +27,18 @@
 
 <script>
 import Dropzone from 'dropzone';
+import { VueEditor } from "vue2-editor";
 export default {
     name: "Index",
+    components: {
+        VueEditor
+    },
     data() {
         return {
             dropzone: null,
             title: null,
             post: null,
+            content: null,
         }
     },
     methods: {
@@ -46,6 +58,18 @@ export default {
         getPost() {
             axios.get('/api/posts').then(response => {
                 this.post = response.data.data;
+            });
+        },
+        handleImageAdded(file, Editor, cursorLocation, resetUploader) {
+            const data = new FormData();
+            data.append('image', file);
+
+            axios.post('/api/posts/images', data).then(response => {
+                const url = response.data.url;
+                Editor.insertEmbed(cursorLocation, "image", url);
+                resetUploader();
+            }).catch(error => {
+                console.log(error);
             });
         }
     },
