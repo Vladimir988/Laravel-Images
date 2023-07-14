@@ -20,6 +20,7 @@
                     <img :src="image.preview_url" :alt="post.title" class="mb-3">
                     <img :src="image.url" :alt="post.title" class="mb-3 w-100">
                 </div>
+                <div v-html="post.content"></div>
             </div>
         </div>
     </div>
@@ -50,7 +51,9 @@ export default {
                 this.dropzone.removeFile(file);
             });
             data.append('title', this.title);
+            data.append('content', this.content);
             this.title = '';
+            this.content = '';
             axios.post('/api/posts', data).then(() => {
                 this.getPost();
             });
@@ -84,6 +87,12 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+img {
+    width: 100%;
+}
+.dz-success-mark,
+.dz-error-mark {
+    display: none;
+}
 </style>
