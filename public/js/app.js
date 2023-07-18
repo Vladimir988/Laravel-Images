@@ -5089,7 +5089,8 @@ __webpack_require__.r(__webpack_exports__);
       dropzone: null,
       title: null,
       post: null,
-      content: null
+      content: null,
+      imagesIdsForDelete: []
     };
   },
   methods: {
@@ -5100,6 +5101,9 @@ __webpack_require__.r(__webpack_exports__);
       files.forEach(function (file) {
         data.append('images[]', file);
         _this.dropzone.removeFile(file);
+      });
+      this.imagesIdsForDelete.forEach(function (idForDelete) {
+        data.append('image_ids_for_delete[]', idForDelete);
       });
       data.append('title', this.title);
       data.append('content', this.content);
@@ -5118,6 +5122,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.content = _this2.post.content;
         _this2.post.images.forEach(function (image) {
           var file = {
+            id: image.id,
             name: image.name,
             size: image.size
           };
@@ -5138,10 +5143,14 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    var _this3 = this;
     this.dropzone = new dropzone__WEBPACK_IMPORTED_MODULE_0__["default"](this.$refs.dropzone, {
       url: '/api/posts',
       autoProcessQueue: false,
       addRemoveLinks: true
+    });
+    this.dropzone.on('removedfile', function (file) {
+      _this3.imagesIdsForDelete.push(file.id);
     });
     this.getPost();
   }
