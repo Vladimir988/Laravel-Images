@@ -23,7 +23,14 @@ class UpdateController extends Controller
 
 //        $post = Post::firstOrCreate($data);
 
-
+        $currentImages = $post->images;
+        foreach ($currentImages as $currentImage) {
+            if(in_array($currentImage->id, $imageIdsForDelete)) {
+                Storage::disk('public')->delete($currentImage->path);
+                Storage::disk('public')->delete(str_replace('images/', 'images/prev_', $currentImage->path));
+                $currentImage->delete();
+            }
+        }
 
         if (! empty($images)) {
             foreach ($images as $image) {
