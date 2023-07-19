@@ -5090,7 +5090,8 @@ __webpack_require__.r(__webpack_exports__);
       title: null,
       post: null,
       content: null,
-      imagesIdsForDelete: []
+      imagesIdsForDelete: [],
+      imagesUrlsForDelete: []
     };
   },
   methods: {
@@ -5105,12 +5106,19 @@ __webpack_require__.r(__webpack_exports__);
       this.imagesIdsForDelete.forEach(function (idForDelete) {
         data.append('image_ids_for_delete[]', idForDelete);
       });
+      this.imagesUrlsForDelete.forEach(function (urlForDelete) {
+        data.append('image_urls_for_delete[]', urlForDelete);
+      });
       data.append('title', this.title);
       data.append('content', this.content);
       data.append('_method', 'PATCH');
       this.title = '';
       this.content = '';
       axios.post("/api/posts/".concat(this.post.id), data).then(function () {
+        var previews = _this.dropzone.previewsContainer.querySelectorAll('.dz-image-preview');
+        previews.forEach(function (preview) {
+          preview.remove();
+        });
         _this.getPost();
       });
     },
@@ -5140,6 +5148,9 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    handleImageRemoved: function handleImageRemoved(url) {
+      this.imagesUrlsForDelete.push(url);
     }
   },
   mounted: function mounted() {
@@ -5206,7 +5217,8 @@ var render = function render() {
       useCustomImageHandler: ""
     },
     on: {
-      "image-added": _vm.handleImageAdded
+      "image-added": _vm.handleImageAdded,
+      "image-removed": _vm.handleImageRemoved
     },
     model: {
       value: _vm.content,
@@ -5231,7 +5243,7 @@ var render = function render() {
     staticClass: "mt-5"
   }, [_vm.post ? _c("div", [_c("h4", [_vm._v(_vm._s(_vm.post.title))]), _vm._v(" "), _vm._l(_vm.post.images, function (image) {
     return _c("div", [_c("img", {
-      staticClass: "mb-3",
+      staticClass: "mb-3 preview",
       attrs: {
         src: image.preview_url,
         alt: _vm.post.title
@@ -11761,7 +11773,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nimg {\n    width: 100%;\n}\n.dz-success-mark,\n.dz-error-mark {\n    display: none;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nimg.w-100 {\n    width: 100%;\n}\n.dz-success-mark,\n.dz-error-mark {\n    display: none;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

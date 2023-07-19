@@ -9,6 +9,7 @@
                 v-model="content"
                 useCustomImageHandler
                 @image-added="handleImageAdded"
+                @image-removed="handleImageRemoved"
             >
             </vue-editor>
         </div>
@@ -17,7 +18,7 @@
             <div v-if="post">
                 <h4>{{ post.title }}</h4>
                 <div v-for="image in post.images">
-                    <img :src="image.preview_url" :alt="post.title" class="mb-3">
+                    <img :src="image.preview_url" :alt="post.title" class="mb-3 preview">
                     <img :src="image.url" :alt="post.title" class="mb-3 w-100">
                 </div>
                 <div v-html="post.content"></div>
@@ -41,6 +42,7 @@ export default {
             post: null,
             content: null,
             imagesIdsForDelete: [],
+            imagesUrlsForDelete: [],
         }
     },
     methods: {
@@ -56,12 +58,20 @@ export default {
                 data.append('image_ids_for_delete[]', idForDelete);
             });
 
+            this.imagesUrlsForDelete.forEach(urlForDelete => {
+                data.append('image_urls_for_delete[]', urlForDelete);
+            });
+
             data.append('title', this.title);
             data.append('content', this.content);
             data.append('_method', 'PATCH');
             this.title = '';
             this.content = '';
             axios.post(`/api/posts/${this.post.id}`, data).then(() => {
+                let previews = this.dropzone.previewsContainer.querySelectorAll('.dz-image-preview');
+                previews.forEach(preview => {
+                    preview.remove();
+                });
                 this.getPost();
             });
         },
@@ -89,6 +99,9 @@ export default {
             }).catch(error => {
                 console.log(error);
             });
+        },
+        handleImageRemoved(url) {
+            this.imagesUrlsForDelete.push(url);
         }
     },
     mounted() {
@@ -108,7 +121,7 @@ export default {
 </script>
 
 <style>
-img {
+img.w-100 {
     width: 100%;
 }
 .dz-success-mark,
